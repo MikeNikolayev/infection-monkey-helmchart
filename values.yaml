@@ -1,0 +1,37 @@
+deployment:
+  name: monkey-deployment
+
+serviceAccount:
+  name: monkey
+
+service:
+  name: monkey-svc
+  type: NodePort
+  port: 5000
+  targetPort: 5000
+  nodePort: 30007
+
+pod:
+  name: monkey-island
+  labels:
+    app: monkey
+  containers:
+    - name: monkey-island
+      image: deanji08/monkey-island
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 5000
+    - name: monkey-mongo
+      image: mongo:4.2
+      volumeMounts:
+        - mountPath: /data/db
+          name: monkey-data
+  volumes:
+    - name: monkey-data
+      hostPath:
+        path: /var/monkey-mongo/data/db
+
+clusterRoleBinding:
+  name: monkey-bind
+  roleRef:
+    name: cluster-admin
