@@ -17,12 +17,13 @@ pod:
     app: monkey
   containers:
     - name: monkey-island
-      image: deanji08/monkey-island
+      image: infectionmonkey/monkey-island:latest
       imagePullPolicy: IfNotPresent
       ports:
         - containerPort: 5000
     - name: monkey-mongo
-      image: mongo:4.2
+      image: mongo:6.0
+      imagePullPolicy: IfNotPresent
       volumeMounts:
         - mountPath: /data/db
           name: monkey-data
